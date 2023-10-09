@@ -18,7 +18,7 @@ class ResponseParser:
             <body>
             <ul>"""
         for i in files:
-            response_data += f'<li>{i}</li>'
+            response_data += f'<li><a href="/home/konstantin/bsuir/aipos/lab5/server/storage/{i}">{i}</a></li>'
         response_data += """
             </ul>
             </body>
