@@ -17,7 +17,8 @@ class HTTPServer:
         self.__config.read('server.ini')
         self.__host = 'localhost'  # self.__config['server']['host']
         self.__port = random.randint(1, 10000)
-        self.__file = FileHandler()
+        self.__storage = self.__config['server']['storage']
+        self.__file = FileHandler(self.__storage)
 
     def run(self):
         server = socket.socket(
@@ -58,7 +59,7 @@ class HTTPServer:
                         content_length += len(read_bytes)
                 request = Request(data)
                 uploading = self.__file.upload(request.headers())
-                response = Response(request=request, uploading_flag=uploading)
+                response = Response(request=request, storage=self.__storage, uploading_flag=uploading)
 
                 connection.sendall(response.handle_response())
                 connection.shutdown(socket.SHUT_WR)

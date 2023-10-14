@@ -2,8 +2,8 @@ from typing import Dict
 
 
 class FileHandler:
-    def __init__(self) -> None:
-        self.__path = '/home/konstantin/bsuir/aipos/lab5/server/storage/'
+    def __init__(self, path: str) -> None:
+        self.__path = path
 
     def upload(self, headers: Dict[str, str | bytes]) -> bool:
         try:

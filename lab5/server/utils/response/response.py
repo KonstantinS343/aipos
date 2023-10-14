@@ -6,8 +6,8 @@ from status_code import StatusCodeInt, StatusCodeStr
 
 
 class ResponseParser:
-    def get_parser(self, headers: Dict[str, str | bytes], st_code_int: int, st_code_str: str):
-        files = os.listdir('/home/konstantin/bsuir/aipos/lab5/server/storage/')
+    def get_parser(self, headers: Dict[str, str | bytes], st_code_int: int, st_code_str: str, path: str):
+        files = os.listdir(path)
         response_data = f'HTTP/1.0 {st_code_int} {st_code_str}\n'
         response_data += f'Access-Control-Allow-Origin: http://{headers["Host"]}{headers["Request URL"]}'
         response_data += 'Access-Control-Allow-Methods: GET, POST, OPTIONS'
@@ -54,10 +54,11 @@ class ResponseParser:
 
 
 class Response:
-    def __init__(self, request: Request, uploading_flag: bool = True) -> None:
+    def __init__(self, request: Request, storage: str, uploading_flag: bool = True) -> None:
         self.__headers = request.headers()
         self.__parser = ResponseParser()
         self.__uploading_flag = uploading_flag
+        self.__storage = storage
 
     def handle_response(self) -> bytes:
         if self.__headers['Request Method'] == 'GET':
@@ -68,7 +69,8 @@ class Response:
     def get(self) -> bytes:
         response = self.__parser.get_parser(self.__headers,
                                             StatusCodeInt.STATUS_CODE_200.value,
-                                            StatusCodeStr.STATUS_CODE_200.value)
+                                            StatusCodeStr.STATUS_CODE_200.value,
+                                            path=self.__storage)
         return response.encode()
 
     def post(self) -> bytes:
