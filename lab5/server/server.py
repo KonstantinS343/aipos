@@ -1,7 +1,6 @@
 import socket
 import logging
 import configparser
-import random
 import re
 
 from utils.request.request import Request
@@ -15,9 +14,9 @@ class HTTPServer:
     def __init__(self) -> None:
         self.__config = configparser.ConfigParser()
         self.__config.read('server.ini')
-        self.__host = 'localhost'  # self.__config['server']['host']
-        self.__port = random.randint(1, 10000)
-        self.__storage = self.__config['server']['storage']
+        self.__host = self.__config['server']['host']
+        self.__port = int(self.__config['server']['port'])
+        self.__storage = self.__config['server']['storage_path']
         self.__file = FileHandler(self.__storage)
 
     def run(self):
