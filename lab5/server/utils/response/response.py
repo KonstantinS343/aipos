@@ -46,7 +46,7 @@ class ResponseParser:
             response_data += """
                 <html>
                 <body>
-                <h1>FORBIDDEN</h1>
+                <h1>BAD REQUEST</h1>
                 </body>
                 </html>
             """
@@ -54,7 +54,7 @@ class ResponseParser:
 
 
 class Response:
-    def __init__(self, request: Request, uploading_flag: bool = True, error: bool = False) -> None:
+    def __init__(self, request: Request, uploading_flag: bool = True) -> None:
         self.__headers = request.headers()
         self.__parser = ResponseParser()
         self.__uploading_flag = uploading_flag
@@ -78,7 +78,7 @@ class Response:
                                                  StatusCodeStr.STATUS_CODE_202.value)
         else:
             response = self.__parser.post_parser(self.__headers,
-                                                 StatusCodeInt.STATUS_CODE_403.value,
-                                                 StatusCodeStr.STATUS_CODE_403.value,
+                                                 StatusCodeInt.STATUS_CODE_400.value,
+                                                 StatusCodeStr.STATUS_CODE_400.value,
                                                  False)
         return response.encode()
