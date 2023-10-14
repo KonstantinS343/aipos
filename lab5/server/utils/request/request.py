@@ -5,7 +5,7 @@ import re
 
 class RequestParser:
     def __init__(self, data: bytes) -> None:
-        print(data)
+        self.__request = {}
         try:
             headers, file_info, body = data.split(b'\r\n\r\n')
             request = (headers+file_info).decode().splitlines()
@@ -13,7 +13,7 @@ class RequestParser:
         except Exception:
             request = data.decode().splitlines()
 
-        self.__request = {'head': request[0]}
+        self.__request['head'] = request[0]
         for i in request[1:]:
             try:
                 key, value = i.split(': ')
